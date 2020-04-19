@@ -11,21 +11,21 @@ contract Splitter {
     }
     
     function RegisterAlice(address _alice) public returns (bool success){
-        require (alice == address(0) && bob == address(0) && carol == address(0));
+        require (alice == address(0) && bob == address(0) && carol == address(0), 'failed to register Alice');
         
         alice = _alice;
         return true;
     }
     
     function RegisterBob(address _bob) public returns (bool success){
-        require (owner != _bob && alice != _bob && alice != address(0) && bob == address(0) && carol == address(0));
+        require (owner != _bob && alice != _bob && alice != address(0) && bob == address(0) && carol == address(0), 'failed to register Bob');
         
         bob = _bob;
         return true;
     }
     
     function RegisterCarol(address _carol) public returns (bool success){
-        require (owner != _carol && alice != _carol && bob != _carol && alice != address(0) && bob != address(0) && carol == address(0));
+        require (owner != _carol && alice != _carol && bob != _carol && alice != address(0) && bob != address(0) && carol == address(0), 'failed to register Carol');
         
         carol = _carol;
         return true;
