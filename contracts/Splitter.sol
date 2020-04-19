@@ -13,7 +13,7 @@ contract Splitter {
     constructor () public {
         owner = msg.sender;
     }
-    
+
     function RegisterAlice(address _alice) public returns (bool success){
         require (alice == address(0) && bob == address(0) && carol == address(0), 'failed to register Alice');
         
@@ -36,17 +36,22 @@ contract Splitter {
     }
 
     function SplitFundFromAlice() public payable returns(uint) {
-        require(alice == msg.sender && msg.value > 0);
+        require(alice == msg.sender && msg.value > 0, 'failed to get funds from alice');
         uint oneWei = 1;
         uint amount = msg.value;
         uint splitForBob = amount / 2;
         uint splitForCarol = amount / 2;
         if (amount % 2 == 1){
+            require(splitForBob + oneWei > splitForBob, 'Overflow: splitForBob');
             splitForBob += oneWei;
         }
 
-        require(amount == splitForBob + splitForCarol);
+        // Check that funnds have been properly split
+        require(amount == splitForBob + splitForCarol, 'Split funds failed to add up');
 
+        require(aliceDeposite + amount > aliceDeposite, 'Overflow: aliceDeposite');
+        require(bobFunds + splitForBob > bobFunds, 'Overflow: bobFunds');
+        require(carolFunds + splitForCarol > carolFunds, 'Overflow: carolFunds');
         aliceDeposite += amount;
         bobFunds += splitForBob;
         carolFunds += splitForCarol;
