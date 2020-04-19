@@ -50,3 +50,47 @@ contract('Splitter - Initialization', (accounts) => {
     });
 });
 
+contract('Splitter - split even funds', (accounts) => {
+    it('Should split funds of 2 wei', async () => {
+        const alice = accounts[4];
+        const bob = accounts[5];
+        const carol = accounts[6];
+        const splitterInstance = await Splitter.deployed()
+        await splitterInstance.RegisterAlice(alice);
+        await splitterInstance.RegisterBob(bob);
+        await splitterInstance.RegisterCarol(carol);
+        // Split 2 Wei
+        await splitterInstance.SplitFundFromAlice({from: alice, value: web3.utils.toWei('2', 'wei')});
+        const alice_deposit = await splitterInstance.getAliceDeposit();
+        const bob_funds = await splitterInstance.getBobFunds();
+        const carol_funds = await splitterInstance.getCarolFunds();
+        const contract_balance = await splitterInstance.getContractBalance()
+        assert.equal(alice_deposit.toString(10), '2');
+        assert.equal(bob_funds.toString(10), '1');
+        assert.equal(carol_funds.toString(10), '1');
+        assert.equal(contract_balance.toString(10), '2');
+    });
+});
+
+contract('Splitter - split odd funds', (accounts) => {
+    it('Should split funds of 1 wei', async () => {
+        const alice = accounts[4];
+        const bob = accounts[5];
+        const carol = accounts[6];
+        const splitterInstance = await Splitter.deployed()
+        await splitterInstance.RegisterAlice(alice);
+        await splitterInstance.RegisterBob(bob);
+        await splitterInstance.RegisterCarol(carol);
+        // Split 1 Wei
+        await splitterInstance.SplitFundFromAlice({from: alice, value: web3.utils.toWei('1', 'wei')});
+        const alice_deposit = await splitterInstance.getAliceDeposit();
+        const bob_funds = await splitterInstance.getBobFunds();
+        const carol_funds = await splitterInstance.getCarolFunds();
+        const contract_balance = await splitterInstance.getContractBalance()
+        assert.equal(alice_deposit.toString(10), '1');
+        assert.equal(bob_funds.toString(10), '1');
+        assert.equal(carol_funds.toString(10), '0');
+        assert.equal(contract_balance.toString(10), '1');
+    });
+});
+

@@ -49,9 +49,10 @@ contract Splitter {
         // Check that funnds have been properly split
         require(amount == splitForBob + splitForCarol, 'Split funds failed to add up');
 
+        // Note: splitForBob >=1; splitForCarol >= 0;
         require(aliceDeposite + amount > aliceDeposite, 'Overflow: aliceDeposite');
         require(bobFunds + splitForBob > bobFunds, 'Overflow: bobFunds');
-        require(carolFunds + splitForCarol > carolFunds, 'Overflow: carolFunds');
+        require(carolFunds + splitForCarol >= carolFunds, 'Overflow: carolFunds');
         aliceDeposite += amount;
         bobFunds += splitForBob;
         carolFunds += splitForCarol;
