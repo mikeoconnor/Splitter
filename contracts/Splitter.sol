@@ -10,9 +10,9 @@ contract Splitter {
     uint private bobFunds;
     uint private carolFunds;
 
-    event LogRegisterAlice(address alice);
-    event LogRegisterBob(address bob);
-    event LogRegisterCarol(address carol);
+    event LogRegisterAlice(address sender, address alice);
+    event LogRegisterBob(address sender, address bob);
+    event LogRegisterCarol(address sender, address carol);
     event LogSplitFunds(address sender, uint amount_from_alice, uint amount_to_bob, uint amount_to_carol);
 
     constructor () public {
@@ -21,21 +21,21 @@ contract Splitter {
 
     function registerAlice(address _alice) public returns (bool success){
         require (alice == address(0) && bob == address(0) && carol == address(0), 'failed to register Alice');
-        emit LogRegisterAlice(_alice);
+        emit LogRegisterAlice(msg.sender, _alice);
         alice = _alice;
         return true;
     }
     
     function registerBob(address _bob) public returns (bool success){
         require (owner != _bob && alice != _bob && alice != address(0) && bob == address(0) && carol == address(0), 'failed to register Bob');
-        emit LogRegisterBob(_bob);
+        emit LogRegisterBob(msg.sender, _bob);
         bob = _bob;
         return true;
     }
     
     function registerCarol(address _carol) public returns (bool success){
         require (owner != _carol && alice != _carol && bob != _carol && alice != address(0) && bob != address(0) && carol == address(0), 'failed to register Carol');
-        emit LogRegisterCarol(_carol);
+        emit LogRegisterCarol(msg.sender, _carol);
         carol = _carol;
         return true;
     }
