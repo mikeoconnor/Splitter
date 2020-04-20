@@ -65,6 +65,20 @@ contract Splitter {
         return amount;
     }
 
+    function withdrawBob(uint amount) public returns (uint remainingBalance){
+        require(bob == msg.sender && bobFunds >= amount, 'failed to get request from bob');
+        bobFunds -= amount;
+        msg.sender.transfer(amount);
+        return bobFunds;
+    }
+
+    function withdrawCarol(uint amount) public returns(uint remainingBalance){
+        require(carol == msg.sender && carolFunds >= amount, 'failed to get request from carol');
+        carolFunds -= amount;
+        msg.sender.transfer(amount);
+        return carolFunds;
+    }
+
     function getAliceDeposit() public view returns (uint){
         return aliceDeposite;
     }
