@@ -40,7 +40,6 @@ contract('Splitter - Initialization', (accounts) => {
     it('Should correctly register alice, bob and carol', async () => {
         const splitterInstance = await Splitter.deployed();
         const alice = await splitterInstance.alice();
-        //await splitterInstance.RegisterBob(accounts[2]);
         const bob = await splitterInstance.bob();
         await splitterInstance.registerCarol(accounts[3]);
         const carol = await splitterInstance.carol();
@@ -61,11 +60,9 @@ contract('Splitter - split even funds', (accounts) => {
         await splitterInstance.registerCarol(carol);
         // Split 2 Wei
         await splitterInstance.splitFundFromAlice({from: alice, value: web3.utils.toWei('2', 'wei')});
-        const alice_deposit = await splitterInstance.aliceDeposite();
         const bob_funds = await splitterInstance.bobFunds();
         const carol_funds = await splitterInstance.carolFunds();
-        const contract_balance = await splitterInstance.getContractBalance()
-        assert.equal(alice_deposit.toString(10), '2');
+        const contract_balance = await splitterInstance.getContractBalance();
         assert.equal(bob_funds.toString(10), '1');
         assert.equal(carol_funds.toString(10), '1');
         assert.equal(contract_balance.toString(10), '2');
@@ -77,17 +74,16 @@ contract('Splitter - split odd funds', (accounts) => {
         const alice = accounts[4];
         const bob = accounts[5];
         const carol = accounts[6];
-        const splitterInstance = await Splitter.deployed()
+        const splitterInstance = await Splitter.deployed();
         await splitterInstance.registerAlice(alice);
         await splitterInstance.registerBob(bob);
         await splitterInstance.registerCarol(carol);
         // Split 1 Wei
         await splitterInstance.splitFundFromAlice({from: alice, value: web3.utils.toWei('1', 'wei')});
-        const alice_deposit = await splitterInstance.aliceDeposite();
         const bob_funds = await splitterInstance.bobFunds();
         const carol_funds = await splitterInstance.carolFunds();
-        const contract_balance = await splitterInstance.getContractBalance()
-        assert.equal(alice_deposit.toString(10), '1');
+        const contract_balance = await splitterInstance.getContractBalance();
+        //assert.equal(alice_deposit.toString(10), '1');
         assert.equal(bob_funds.toString(10), '1');
         assert.equal(carol_funds.toString(10), '0');
         assert.equal(contract_balance.toString(10), '1');
@@ -99,7 +95,7 @@ contract('Splitter - withdraw funds', (accounts) => {
         const alice = accounts[4];
         const bob = accounts[5];
         const carol = accounts[6];
-        const splitterInstance = await Splitter.deployed()
+        const splitterInstance = await Splitter.deployed();
         await splitterInstance.registerAlice(alice);
         await splitterInstance.registerBob(bob);
         await splitterInstance.registerCarol(carol);

@@ -6,7 +6,6 @@ contract Splitter {
     address public bob;
     address public carol;
 
-    uint public aliceDeposite;
     uint public bobFunds;
     uint public carolFunds;
 
@@ -55,11 +54,9 @@ contract Splitter {
         require(amount == splitForBob + splitForCarol, 'Split funds failed to add up');
 
         // Note: splitForBob >=1; splitForCarol >= 0;
-        require(aliceDeposite + amount > aliceDeposite, 'Overflow: aliceDeposite');
         require(bobFunds + splitForBob > bobFunds, 'Overflow: bobFunds');
         require(carolFunds + splitForCarol >= carolFunds, 'Overflow: carolFunds');
         emit LogSplitFunds(msg.sender, amount, splitForBob, splitForCarol);
-        aliceDeposite += amount;
         bobFunds += splitForBob;
         carolFunds += splitForCarol;
         return amount;
