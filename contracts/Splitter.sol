@@ -6,9 +6,9 @@ contract Splitter {
     address public bob;
     address public carol;
 
-    uint private aliceDeposite;
-    uint private bobFunds;
-    uint private carolFunds;
+    uint public aliceDeposite;
+    uint public bobFunds;
+    uint public carolFunds;
 
     event LogRegisterAlice(address sender, address alice);
     event LogRegisterBob(address sender, address bob);
@@ -76,18 +76,6 @@ contract Splitter {
         require(carol == msg.sender && carolFunds >= amount, 'failed to get request from carol');
         carolFunds -= amount;
         msg.sender.transfer(amount);
-        return carolFunds;
-    }
-
-    function getAliceDeposit() public view returns (uint){
-        return aliceDeposite;
-    }
-
-    function getBobFunds() public view returns (uint){
-        return bobFunds;
-    }
-
-    function getCarolFunds() public view returns (uint){
         return carolFunds;
     }
 
