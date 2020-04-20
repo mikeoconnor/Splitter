@@ -60,7 +60,7 @@ contract('Splitter - split even funds', (accounts) => {
         await splitterInstance.RegisterBob(bob);
         await splitterInstance.RegisterCarol(carol);
         // Split 2 Wei
-        await splitterInstance.SplitFundFromAlice({from: alice, value: web3.utils.toWei('2', 'wei')});
+        await splitterInstance.splitFundFromAlice({from: alice, value: web3.utils.toWei('2', 'wei')});
         const alice_deposit = await splitterInstance.getAliceDeposit();
         const bob_funds = await splitterInstance.getBobFunds();
         const carol_funds = await splitterInstance.getCarolFunds();
@@ -82,7 +82,7 @@ contract('Splitter - split odd funds', (accounts) => {
         await splitterInstance.RegisterBob(bob);
         await splitterInstance.RegisterCarol(carol);
         // Split 1 Wei
-        await splitterInstance.SplitFundFromAlice({from: alice, value: web3.utils.toWei('1', 'wei')});
+        await splitterInstance.splitFundFromAlice({from: alice, value: web3.utils.toWei('1', 'wei')});
         const alice_deposit = await splitterInstance.getAliceDeposit();
         const bob_funds = await splitterInstance.getBobFunds();
         const carol_funds = await splitterInstance.getCarolFunds();
