@@ -1,7 +1,6 @@
 pragma solidity 0.5.0;
 
 contract Splitter {
-    address public owner;
     address public alice;
     address public bob;
     address public carol;
@@ -14,10 +13,6 @@ contract Splitter {
     event LogRegisterCarol(address sender, address carol);
     event LogSplitFunds(address sender, uint amount_from_alice, uint amount_to_bob, uint amount_to_carol);
 
-    constructor () public {
-        owner = msg.sender;
-    }
-
     function registerAlice(address _alice) public returns (bool success){
         require (alice == address(0) && bob == address(0) && carol == address(0), 'failed to register Alice');
         emit LogRegisterAlice(msg.sender, _alice);
@@ -26,14 +21,14 @@ contract Splitter {
     }
     
     function registerBob(address _bob) public returns (bool success){
-        require (owner != _bob && alice != _bob && alice != address(0) && bob == address(0) && carol == address(0), 'failed to register Bob');
+        require (alice != _bob && alice != address(0) && bob == address(0) && carol == address(0), 'failed to register Bob');
         emit LogRegisterBob(msg.sender, _bob);
         bob = _bob;
         return true;
     }
     
     function registerCarol(address _carol) public returns (bool success){
-        require (owner != _carol && alice != _carol && bob != _carol && alice != address(0) && bob != address(0) && carol == address(0), 'failed to register Carol');
+        require (alice != _carol && bob != _carol && alice != address(0) && bob != address(0) && carol == address(0), 'failed to register Carol');
         emit LogRegisterCarol(msg.sender, _carol);
         carol = _carol;
         return true;
