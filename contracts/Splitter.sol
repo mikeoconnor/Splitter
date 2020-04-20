@@ -19,21 +19,21 @@ contract Splitter {
         owner = msg.sender;
     }
 
-    function RegisterAlice(address _alice) public returns (bool success){
+    function registerAlice(address _alice) public returns (bool success){
         require (alice == address(0) && bob == address(0) && carol == address(0), 'failed to register Alice');
         emit LogRegisterAlice(_alice);
         alice = _alice;
         return true;
     }
     
-    function RegisterBob(address _bob) public returns (bool success){
+    function registerBob(address _bob) public returns (bool success){
         require (owner != _bob && alice != _bob && alice != address(0) && bob == address(0) && carol == address(0), 'failed to register Bob');
         emit LogRegisterBob(_bob);
         bob = _bob;
         return true;
     }
     
-    function RegisterCarol(address _carol) public returns (bool success){
+    function registerCarol(address _carol) public returns (bool success){
         require (owner != _carol && alice != _carol && bob != _carol && alice != address(0) && bob != address(0) && carol == address(0), 'failed to register Carol');
         emit LogRegisterCarol(_carol);
         carol = _carol;
