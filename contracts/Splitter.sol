@@ -7,7 +7,7 @@ contract Splitter {
     event LogSplitFunds(address sender, uint amount_to_split, address to_address1, address to_address2);
     event LogWithdrawFunds(address sender, uint amount_to_withdraw);
 
-    function splitFunds(address toAddress1, address toAddress2) public payable returns(uint) {
+    function splitFunds(address toAddress1, address toAddress2) public payable returns(bool success) {
         require(msg.value > 0, 'failed to get funds from sender');
         uint oneWei = 1;
         uint amount = msg.value;
@@ -26,15 +26,15 @@ contract Splitter {
         emit LogSplitFunds(msg.sender, amount, toAddress1, toAddress2);
         balances[toAddress1] += splitForAddress1;
         balances[toAddress2] += splitForAddress2;
-        return amount;
+        return true;
     }
 
-    function withdrawFunds(uint amount_to_withdraw) public returns (uint){
+    function withdrawFunds(uint amount_to_withdraw) public returns (bool success){
        require(balances[msg.sender] >= amount_to_withdraw);
        emit LogWithdrawFunds(msg.sender, amount_to_withdraw);
        balances[msg.sender] -= amount_to_withdraw;
        msg.sender.transfer(amount_to_withdraw);
-       return balances[msg.sender];
+       return true;
     }
 
     function getContractBalance() public view returns(uint){
