@@ -3,18 +3,18 @@ pragma solidity 0.5.0;
 contract Splitter {
 
     mapping (address => uint) public balances;
+    uint constant ONEWEI = 1;
 
     event LogSplitFunds(address sender, uint amount_to_split, address to_address1, address to_address2);
     event LogWithdrawFunds(address sender, uint amount_to_withdraw);
 
     function splitFunds(address toAddress1, address toAddress2) public payable returns(bool success) {
         require(msg.value > 0, 'failed to get funds from sender');
-        uint oneWei = 1;
         uint amount = msg.value;
         uint splitForAddress1 = amount / 2;
         uint splitForAddress2 = amount / 2;
         if (amount % 2 == 1){
-            splitForAddress1 += oneWei;
+            splitForAddress1 += ONEWEI;
         }
 
         // Check that funnds have been properly split
