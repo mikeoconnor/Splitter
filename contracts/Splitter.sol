@@ -4,7 +4,7 @@ contract Splitter {
 
     mapping (address => uint) public balances;
 
-    event LogSplitFunds(address sender, address to_address1, address to_address2, uint amount_to_split);
+    event LogSplitFunds(address sender, uint amount_to_split, address to_address1, address to_address2);
     event LogWithdrawFunds(address sender, uint amount_to_withdraw);
 
     function splitFunds(address toAddress1, address toAddress2) public payable returns(uint) {
@@ -23,7 +23,7 @@ contract Splitter {
         // Note: splitForAddress1 >=1; splitForAddress2 >= 0;
         require(balances[toAddress1] + splitForAddress1 > balances[toAddress1], 'Overflow: balances[toAddress1]');
         require(balances[toAddress2] + splitForAddress2 >= balances[toAddress2], 'Overflow: balances[toAddress2]');
-        emit LogSplitFunds(msg.sender, toAddress1, toAddress2, amount);
+        emit LogSplitFunds(msg.sender, amount, toAddress1, toAddress2);
         balances[toAddress1] += splitForAddress1;
         balances[toAddress2] += splitForAddress2;
         return amount;
