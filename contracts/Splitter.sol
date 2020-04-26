@@ -26,8 +26,8 @@ contract Splitter is Stoppable {
 
     function withdrawFunds(uint amount_to_withdraw) public ifRunning returns (bool success){
        balances[msg.sender] = balances[msg.sender].sub(amount_to_withdraw);
-       msg.sender.transfer(amount_to_withdraw);
        emit LogWithdrawFunds(msg.sender, amount_to_withdraw);
+       msg.sender.transfer(amount_to_withdraw);
        return true;
     }
 
