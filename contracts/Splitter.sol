@@ -1,7 +1,7 @@
 pragma solidity 0.5.0;
 
 import "./Stoppable.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "./SafeMath.sol";
 
 contract Splitter is Stoppable {
 
