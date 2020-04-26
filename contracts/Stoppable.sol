@@ -1,6 +1,8 @@
 pragma solidity 0.5.0;
 
-contract Stoppable {
+import "./Ownable.sol";
+
+contract Stoppable is Ownable {
     bool public isRunning = true;
 
     event LogStopped(address sender);
@@ -16,13 +18,13 @@ contract Stoppable {
         _;
     }
 
-    function stop() public ifRunning returns(bool success){
+    function stop() public onlyOwner ifRunning returns(bool success){
         isRunning = false;
         emit LogStopped(msg.sender);
         return true;
     }
 
-    function resume() public ifStopped returns(bool success){
+    function resume() public onlyOwner ifStopped returns(bool success){
         isRunning = true;
         emit LogResumed(msg.sender);
         return true;
